@@ -72,21 +72,15 @@ class FbBotApp
      * Set Get Started Button
      *
      * @see https://developers.facebook.com/docs/messenger-platform/thread-settings/get-started-button
-     * @param MessageButton[] $buttons
+     * @param MessageButton $button
      * @return array
      */
-    public function setGetStartedButton($buttons)
+    public function setGetStartedButton($button)
     {
-        $elements = [];
-
-        foreach ($buttons as $btn) {
-            $elements[] = $btn->getData();
-        }
-
         return $this->call('me/thread_settings', [
             'setting_type' => 'call_to_actions',
             'thread_state' => 'new_thread',
-            'call_to_actions' => $elements
+            'call_to_actions' => [$button->getData()]
         ], self::TYPE_POST);
     }
 
