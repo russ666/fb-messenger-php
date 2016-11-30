@@ -27,7 +27,7 @@ class FbBotApp
      *
      * @var string
      */
-    protected $apiUrl = 'https://graph.facebook.com/v2.6/';
+    protected $apiUrl = 'https://graph.facebook.com/v2.8/';
     
     /**
      * @var null|string
@@ -66,6 +66,70 @@ class FbBotApp
         return new UserProfile($this->call($id, [
             'fields' => $fields
         ], self::TYPE_GET));
+    }
+
+    /**
+     * Set Get Started Button
+     *
+     * @see https://developers.facebook.com/docs/messenger-platform/thread-settings/get-started-button
+     * @param MessageButton[] $buttons
+     * @return array
+     */
+    public function setGetStartedButton($buttons)
+    {
+        $elements = [];
+
+        foreach ($buttons as $btn) {
+            $elements[] = $btn->getData();
+        }
+
+        return $this->call('me/thread_settings', [
+            'setting_type' => 'call_to_actions',
+            'thread_state' => 'new_thread',
+            'call_to_actions' => $elements
+        ], self::TYPE_POST);
+    }
+
+    /**
+     * Remove Get Started Button
+     *
+     * @see https://developers.facebook.com/docs/messenger-platform/thread-settings/get-started-button
+     * @return array
+     */
+    public function deleteGetStartedButton()
+    {
+        return $this->call('me/thread_settings', [
+            'setting_type' => 'call_to_actions',
+            'thread_state' => 'new_thread'
+        ], self::TYPE_DELETE);
+    }
+
+    /**
+     * Set Greeting Text
+     *
+     * @see https://developers.facebook.com/docs/messenger-platform/thread-settings/greeting-text
+     * @param string $text
+     * @return array
+     */
+    public function setGreetingText($text)
+    {
+        return $this->call('me/thread_settings', [
+            'setting_type' => 'greeting',
+            'greeting' => ['text' => $text]
+        ], self::TYPE_POST);
+    }
+
+    /**
+     * Remove Greeting Text
+     *
+     * @see https://developers.facebook.com/docs/messenger-platform/thread-settings/greeting-text
+     * @return array
+     */
+    public function deleteGreetingText()
+    {
+        return $this->call('me/thread_settings', [
+            'setting_type' => 'greeting'
+        ], self::TYPE_DELETE);
     }
 
     /**
