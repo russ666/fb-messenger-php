@@ -19,6 +19,11 @@ class MessageButton
     const TYPE_POSTBACK = "postback";
 
     /**
+     * Postback button type
+     */
+    const TYPE_SHARE = "element_share";
+
+    /**
      * Button type
      *
      * @var null|string
@@ -67,17 +72,18 @@ class MessageButton
     {
         $result = [
             'type' => $this->type,
-            'title' => $this->title,
         ];
 
         switch($this->type)
         {
             case self::TYPE_POSTBACK:
                 $result['payload'] = $this->url;
+                $result['title'] = $this->title;
             break;
 
             case self::TYPE_WEB:
                 $result['url'] = $this->url;
+                $result['title'] = $this->title;
             break;
         }
 
