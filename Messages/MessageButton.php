@@ -45,13 +45,21 @@ class MessageButton
     protected $url = null;
 
     /**
+     * Additional params
+     *
+     * @var array
+     */
+    protected $options = [];
+
+    /**
      * MessageButton constructor.
      *
      * @param string $type
      * @param string $title
      * @param string $url url or postback
+     * @param array $options additional params
      */
-    public function __construct($type, $title, $url = '')
+    public function __construct($type, $title, $url = '', $options = [])
     {
         $this->type = $type;
         $this->title = $title;
@@ -61,6 +69,7 @@ class MessageButton
         }
 
         $this->url = $url;
+        $this->options = $options;
     }
 
     /**
@@ -70,9 +79,9 @@ class MessageButton
      */
     public function getData()
     {
-        $result = [
-            'type' => $this->type,
-        ];
+        $result = $this->options;
+
+        $result['type'] = $this->type;
 
         switch($this->type)
         {
